@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Part 2 - JavaScript</title>
+    <style>
+      body {
+        font-family: "Calibri Light", "Calibri", "Arial";
+        line-height: 150%;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .filters {
+        display: flex;
+        gap: 30px;
+      }
+
+      .filters * {
+        margin: 0;
+      }
+
+      input,
+      select,
+      option {
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+      }
+
+      .search {
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="filters">
+      <label>
+        Sort
+        <select value="" onchange="sort()" id="sort">
+          <option value="">Default</option>
+          <option value="title-asc">Title (asc)</option>
+          <option value="title-desc">Title (desc)</option>
+          <option value="author-asc">Author (asc)</option>
+          <option value="author-desc">Author (desc)</option>
+          <option value="year-asc">Year (asc)</option>
+          <option value="year-desc">Year (desc)</option>
+        </select>
+      </label>
+      <div class="search">
+        <input
+          type="search"
+          id="search"
+          onchange="search()"
+          placeholder="search"
+        />
+        <small>press enter to search</small>
+      </div>
+    </div>
+    <ul id="list"></ul>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js"
+      integrity="sha512-2V49R8ndaagCOnwmj8QnbT1Gz/rie17UouD9Re5WxbzRVUGoftCu5IuqqtAM9+UC3fwfHCSJR1hkzNQh/2wdtg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      var list = document.getElementById("list");
+
+      const books = [
+        {
+          title: "The Great Gatsby",
+          author: "F. Scott Fitzgerald",
+          year: 1925,
+        },
+        {
+          title: "The Force Unleashed",
+          author: "Sean Williams",
+          year: 2008,
+        },
+        {
+          title: "Rogue One: A Star Wars Story",
+          author: "Matt Forbeck",
+          year: 2016,
+        },
+        {
+          title: "To Kill a Mockingbird",
+          author: "Harper Lee",
+          year: 1960,
+        },
+        {
+          title: "Airman",
+          author: "Eoin Colfer",
+          year: 2007,
+        },
+      ];
+
+      createList(books);
+
+      function createList(data) {
+        list.innerHTML = "";
+        data.forEach((book) => {
+          let item = document.createElement("li");
+          item.textContent =
+            book.title + " (by " + book.author + " in " + book.year + ")";
+          list.appendChild(item);
+        });
+      }
+
+      function sort() {
+        var x = document.getElementById("sort").value;
+
+        if (x && x != "") {
+          const options = x.split("-");
+
+          var sorted = _.sortBy(books, options[0]);
+          const sortedBooks = options[1] == "asc" ? sorted : sorted.reverse();
+
+          createList(sorted);
+        } else {
+          createList(books);
+        }
+      }
+
+      function search() {
+        var value = document.getElementById("search").value;
+
+        const searchedList = _.filter(books, function (book) {
+          const x = value.toLowerCase();
+          const title = book.title.toLowerCase();
+          const author = book.author.toLowerCase();
+          const searchTitle = title.includes(x);
+          const searchAuthor = author.includes(x);
+          const searchYear = String(book.year).includes(x);
+
+          return searchTitle || searchAuthor || searchYear;
+        });
+
+        createList(searchedList);
+      }
+    </script>
+  </body>
+</html>

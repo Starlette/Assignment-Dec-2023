@@ -1,0 +1,39 @@
+.filters {
+  justify-content: space-between;
+  max-width: 555px;
+  display: flex;
+  gap: 30px;
+
+  * {
+    margin: 0;
+  }
+}
+
+.search,
+.sort {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.table {
+  margin-top: 30px;
+
+  thead {
+    th {
+      border-bottom: solid 1px #777;
+    }
+  }
+
+  td,
+  th {
+    text-align: left;
+    padding: 5px 10px;
+  }
+
+  tbody {
+    tr:first-child td {
+      padding-top: 10px;
+    }
+  }
+}

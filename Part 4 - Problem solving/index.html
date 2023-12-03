@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Write a JavaScript function that finds the longest palindromic substring
+      in a given string
+    </title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 150%;
+        margin: 30px auto;
+        max-width: 600px;
+        font-size: 16px;
+      }
+      p {
+        justify-content: space-between;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Racecar: <span id="item1"></span></p>
+    <p>racecar: <span id="item2"></span></p>
+    <p>babad: <span id="item3"></span></p>
+    <p>cbbd: <span id="item4"></span></p>
+    <p style="flex-direction: column; margin-top: 40px; gap: 10px">
+      HYTBCABADEFGHABCDEDCBAGHTFYW12345678987654321ZWETYGDE:
+      <span id="item5"></span>
+    </p>
+    <script>
+      function isPalindrome(str1) {
+        var rev = str1.split("").reverse().join("");
+        return str1 == rev;
+      }
+
+      function longestPalindrome(str1) {
+        var max_length = 0,
+          maxp = "";
+
+        for (var i = 0; i < str1.length; i++) {
+          var subs = str1.substr(i, str1.length);
+
+          for (var j = subs.length; j >= 0; j--) {
+            var sub_subs_str = subs.substr(0, j);
+            if (sub_subs_str.length <= 1) continue;
+
+            if (isPalindrome(sub_subs_str)) {
+              if (sub_subs_str.length > max_length) {
+                max_length = sub_subs_str.length;
+                maxp = sub_subs_str;
+              }
+            }
+          }
+        }
+
+        return maxp;
+      }
+
+      document.getElementById("item1").innerText = longestPalindrome("Racecar");
+      document.getElementById("item2").innerText = longestPalindrome("racecar");
+      document.getElementById("item3").innerText = longestPalindrome("babad");
+      document.getElementById("item4").innerText = longestPalindrome("cbbd");
+      document.getElementById("item5").innerText = longestPalindrome(
+        "HYTBCABADEFGHABCDEDCBAGHTFYW12345678987654321ZWETYGDE"
+      );
+    </script>
+  </body>
+</html>
